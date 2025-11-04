@@ -1,6 +1,3 @@
-/* style.css - Tema Dark moderno e responsivo */
-
-/* Paleta e tokens de design */
 :root {
     --bg: #121212;
     --surface: #1e1e1e;
@@ -17,7 +14,6 @@
     color-scheme: dark;
 }
 
-/* Tipografia e base */
 html { font-size: clamp(14px, 1.6vw, 16px); }
 body {
     font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -26,6 +22,9 @@ body {
     margin: 0;
     padding: 24px;
     line-height: 1.5;
+    min-height: 100vh;
+    display: grid;              /* Centraliza o container */
+    place-items: center;        /* Centro vertical e horizontal */
 }
 
 header {
@@ -73,15 +72,16 @@ header h1:hover::after {
     box-shadow: 0 4px 18px rgba(0,0,0,0.45);
 }
 
-main {
-    max-width: 880px;
+.container {
+    width: min(100%, 960px);
     margin: 0 auto;
+    display: grid;
+    gap: 24px;                  /* Espaçamento consistente entre header, form e cards */
 }
 
-/* Card do formulário */
 #visit-form {
     background-color: var(--surface);
-    padding: 28px;
+    padding: clamp(22px, 4vw, 28px);
     border-radius: 12px;
     border: 1px solid var(--border);
     box-shadow: 0 8px 24px var(--shadow);
@@ -95,7 +95,7 @@ main {
 }
 
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 16px;        /* Espaçamento vertical entre campos */
     display: flex;
     flex-direction: column;
 }
@@ -124,7 +124,6 @@ main {
 
 .form-group input::placeholder { color: #8a8a8a; }
 
-/* Hover e focus visíveis */
 .form-group input:hover,
 .form-group select:hover {
     background-color: #252525;
@@ -136,7 +135,6 @@ main {
     box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
-/* Select estilizado com seta */
 .form-group select {
     appearance: none;
     -webkit-appearance: none;
@@ -197,14 +195,14 @@ input[type="time"]::-webkit-inner-spin-button {
 .form-group-inline {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 20px;                  /* Espaçamento horizontal entre colunas */
 }
 
 .form-group-inline .form-group { flex: 1; }
 
 /* Botão de submit com transição */
 button {
-    width: 100%;
+    width: 100%;                /* Botão ocupa a largura do card, não da tela */
     padding: 12px 16px;
     background-color: var(--primary);
     color: #ffffff; /* texto principal em contraste */
@@ -247,6 +245,7 @@ button:disabled {
 
 /* Responsividade */
 @media (max-width: 768px) {
+    .container { gap: 20px; }
     #visit-form { padding: 22px; }
 }
 
@@ -256,6 +255,143 @@ button:disabled {
 
 /* Acessibilidade: reduzir motion se preferido */
 @media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
     header h1 { animation: none !important; }
+}
+
+/* Resource Allocator Card (hidden by default) */
+#resource-allocator {
+    display: none; /* Hidden by default */
+    background-color: var(--surface);
+    padding: 28px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px var(--shadow);
+    margin-top: 30px; /* Space from the form above */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+/* Class to show the card */
+#resource-allocator.visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#resource-allocator h2 {
+    margin: 0 0 20px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary); /* Highlight the title */
+}
+
+/* Make the 'Add Resource' button secondary */
+.button-secondary {
+    background-color: var(--surface-2);
+    color: var(--text-muted);
+    box-shadow: none;
+}
+.button-secondary:hover {
+    background-color: #2a2a2a;
+    color: var(--text);
+    box-shadow: none;
+}
+.button-secondary:active {
+    transform: translateY(1px);
+    background-color: #252525;
+}
+
+/* Resource List */
+#resource-list-container {
+    margin-top: 25px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+}
+#resource-list-container h3 {
+    margin: 0 0 10px;
+    font-weight: 600;
+}
+
+#resource-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+#resource-list li {
+    background-color: var(--surface-2);
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* permite o formulário inline ocupar a linha */
+    gap: 8px;
+    font-size: 0.95rem;
+    border-left: 3px solid var(--primary);
+}
+
+#resource-list li .item-type {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background-color: #2a2a2a;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+#resource-message {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+}
+
+/* Resource item actions */
+.resource-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+.icon-btn:hover { background: #2a2a2a; }
+.icon-btn.edit { color: var(--primary); border-color: var(--primary); }
+.icon-btn.delete { color: #ff6b6b; border-color: #ff6b6b; }
+.icon-btn.save { color: #7bd389; border-color: #7bd389; }
+.icon-btn.cancel { color: var(--text-muted); }
+
+/* Inline edit form within list item */
+.inline-edit-form {
+    display: grid;
+    grid-template-columns: 1fr 160px auto auto;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* "Done" button at the bottom */
+#done-allocating-btn {
+    margin-top: 20px;
+    background-color: var(--primary-active);
+}
+#done-allocating-btn:hover {
+    background-color: var(--primary);
 }
