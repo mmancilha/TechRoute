@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-language" content="en-CA">
+    <meta name="language" content="English (Canada)">
+    <title>TechRoute – Scheduling</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Technical Service Management</h1>
+    </header>
+
+    <main>
+        <form id="visit-form">
+            <h2>New Appointment</h2>
+            
+            <div class="form-group">
+                <label for="client_name">Client Name</label>
+                <input type="text" id="client_name" name="client_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="client_location">Location (Address)</label>
+                <input type="text" id="client_location" name="client_location" required>
+            </div>
+
+            <div class="form-group-inline">
+                <div class="form-group">
+                    <label for="assigned_technician">Assigned Technician</label>
+                    <select id="assigned_technician" name="assigned_technician" required>
+                        <option value="">Select a technician</option>
+                        <option value="Olivia Brown">Olivia Brown</option>
+                        <option value="Liam Johnson">Liam Johnson</option>
+                        <option value="Emma Wilson">Emma Wilson</option>
+                        <option value="Noah Thompson">Noah Thompson</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service_type">Service Type</label>
+                    <select id="service_type" name="service_type" required>
+                        <option value="">Select a service</option>
+                        <option value="Installation">Installation</option>
+                        <option value="Preventive Maintenance">Preventive Maintenance</option>
+                        <option value="Urgent Repair">Urgent Repair</option>
+                        <option value="Network Setup">Network Setup</option>
+                        <option value="Hardware Upgrade">Hardware Upgrade</option>
+                        <option value="Software Installation">Software Installation</option>
+                        <option value="System Diagnostics">System Diagnostics</option>
+                        <option value="On-site Consultation">On-site Consultation</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group-inline">
+                <div class="form-group">
+                    <label for="visit_date">Visit Date</label>
+                    <input type="date" id="visit_date" name="visit_date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="visit_time">Visit Time</label>
+                    <input type="time" id="visit_time" name="visit_time" required>
+                </div>
+            </div>
+
+            <button type="submit">Schedule Visit</button>
+            <p id="form-message"></p>
+        </form>
+    </main>
+
+    <script src="localization.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

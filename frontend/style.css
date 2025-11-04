@@ -1,0 +1,261 @@
+/* style.css - Tema Dark moderno e responsivo */
+
+/* Paleta e tokens de design */
+:root {
+    --bg: #121212;
+    --surface: #1e1e1e;
+    --surface-2: #222222;
+    --text: #ffffff;
+    --text-muted: #b3b3b3;
+    --border: #2a2a2a;
+    --primary: #bb86fc;
+    --primary-hover: #cf9bff;
+    --primary-active: #a66bf2;
+    --shadow: rgba(0,0,0,0.45);
+    --focus-ring: rgba(187,134,252,0.5);
+    /* Força controles nativos a usarem esquema dark */
+    color-scheme: dark;
+}
+
+/* Tipografia e base */
+html { font-size: clamp(14px, 1.6vw, 16px); }
+body {
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 24px;
+    line-height: 1.5;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+header h1 {
+    color: var(--text);
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    text-shadow: 0 2px 12px rgba(187, 134, 252, 0.25);
+    position: relative;
+    display: inline-block;
+    will-change: transform, opacity;
+    animation: fadeSlideIn 500ms ease-out both;
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+header h1::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -6px;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), #8ec5ff);
+    border-radius: 999px;
+    opacity: 0.7;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+    transition: width 200ms ease, opacity 200ms ease, box-shadow 160ms ease;
+}
+
+header h1:hover { text-shadow: 0 4px 18px rgba(187, 134, 252, 0.35); }
+
+header h1:hover::after {
+    width: 80%;
+    opacity: 1;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+}
+
+main {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+/* Card do formulário */
+#visit-form {
+    background-color: var(--surface);
+    padding: 28px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px var(--shadow);
+    transition: box-shadow 160ms ease;
+}
+
+#visit-form h2 {
+    margin: 0 0 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* Inputs e selects */
+.form-group input,
+.form-group select {
+    background-color: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px; /* requisito */
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.form-group input::placeholder { color: #8a8a8a; }
+
+/* Hover e focus visíveis */
+.form-group input:hover,
+.form-group select:hover {
+    background-color: #252525;
+}
+
+.form-group input:focus-visible,
+.form-group select:focus-visible {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* Select estilizado com seta */
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23bb86fc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px 18px;
+    padding-right: 44px; /* espaço para a seta */
+}
+
+/* Date/Time picker indicadores (webkit) */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    background-color: transparent;
+    opacity: 0.9;
+    filter: none;
+}
+
+/* Controles nativos (Chrome/Edge) em dark e alinhados ao tema */
+input[type="date"],
+input[type="time"] {
+    color-scheme: dark; /* Aplica dark aos popups nativos */
+    accent-color: var(--primary);
+}
+
+/* Campos internos do editor de data/hora */
+input[type="date"]::-webkit-datetime-edit,
+input[type="time"]::-webkit-datetime-edit {
+    color: var(--text);
+    background: transparent;
+    padding: 6px 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-year-field,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="time"]::-webkit-datetime-edit-hour-field,
+input[type="time"]::-webkit-datetime-edit-minute-field,
+input[type="time"]::-webkit-datetime-edit-second-field,
+input[type="time"]::-webkit-datetime-edit-ampm-field {
+    color: var(--text);
+    background: transparent;
+}
+
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="time"]::-webkit-datetime-edit-text {
+    color: var(--text-muted);
+    padding: 0 2px;
+}
+
+/* Botões internos do time picker */
+input[type="time"]::-webkit-inner-spin-button {
+    background: transparent;
+}
+
+/* Agrupadores lado a lado */
+.form-group-inline {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group-inline .form-group { flex: 1; }
+
+/* Botão de submit com transição */
+button {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--primary);
+    color: #ffffff; /* texto principal em contraste */
+    border: 1px solid transparent;
+    border-radius: 8px; /* coeso com inputs */
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(187, 134, 252, 0.25);
+    transition: transform 120ms ease, box-shadow 180ms ease, background-color 160ms ease;
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 10px 24px rgba(187, 134, 252, 0.35);
+}
+
+button:active {
+    background-color: var(--primary-active);
+    transform: translateY(1px);
+}
+
+button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring), 0 8px 20px rgba(187, 134, 252, 0.35);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Mensagens do formulário */
+#form-message {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 1.05em;
+    color: var(--text-muted);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #visit-form { padding: 22px; }
+}
+
+@media (max-width: 600px) {
+    .form-group-inline { grid-template-columns: 1fr; gap: 12px; }
+}
+
+/* Acessibilidade: reduzir motion se preferido */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+    header h1 { animation: none !important; }
+}
