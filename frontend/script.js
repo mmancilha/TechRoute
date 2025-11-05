@@ -110,6 +110,9 @@ doneAllocatingBtn.addEventListener('click', () => {
     visitForm.reset();
     visitFormMessage.textContent = 'New appointment successfully created.';
     visitFormMessage.style.color = 'lightgreen';
+
+    // Redirect to dashboard to review the newly created visit
+    window.location.href = 'dashboard.html';
 });
 
 

@@ -1,12 +1,19 @@
-# backend/schemas.py
-from pydantic import BaseModel
-from datetime import date, time
+from pydantic import BaseModel, Field
+from datetime import date, time, datetime # <-- 1. IMPORT DATETIME
 from enum import Enum
-from typing import List # <-- 1. IMPORT THIS
+from typing import List, Optional # <-- 2. IMPORT OPTIONAL
 
-# --- ServiceType and Technician Enums (Keep as-is) ---
+# ---  ADD NEW STATUS ENUM ---
+class VisitStatus(str, Enum):
+    scheduled = "Scheduled"
+    in_progress = "In Progress"
+    completed = "Completed"
+    canceled = "Canceled"
+    rescheduled = "Rescheduled"
+
+# --- (Enums ServiceType, Technician, ResourceType - Keep as-is) ---
 class ServiceType(str, Enum):
-    # ... (all your existing service types) ...
+    # ... (existing values)
     installation = "Installation"
     preventive_maintenance = "Preventive Maintenance"
     urgent_repair = "Urgent Repair"
@@ -17,38 +24,31 @@ class ServiceType(str, Enum):
     onsite_consultation = "On-site Consultation"
 
 class Technician(str, Enum):
-    # ... (all your existing technicians) ...
+    # ... (existing values)
     olivia_brown = "Olivia Brown"
     liam_johnson = "Liam Johnson"
     emma_wilson = "Emma Wilson"
     noah_thompson = "Noah Thompson"
 
-# --- 2. ADD THIS NEW ENUM ---
 class ResourceType(str, Enum):
     material = "Material"
     tool = "Tool"
     equipment = "Equipment"
 
-# --- 3. ADD THESE NEW SCHEMAS (for Resources) ---
+# --- (Resource Schemas - Keep as-is) ---
 class ResourceBase(BaseModel):
     item_name: str
     item_type: ResourceType
 
 class ResourceCreate(ResourceBase):
-    pass # No extra fields needed for creation
-
-class ResourceUpdate(ResourceBase):
-    # For update operations; both fields required to keep validation simple
     pass
 
 class Resource(ResourceBase):
     id: int
     visit_id: int
+    class Config: from_attributes = True
 
-    class Config:
-        from_attributes = True
-
-# --- VisitBase and VisitCreate (Keep as-is) ---
+# --- (VisitBase & VisitCreate - Keep as-is) ---
 class VisitBase(BaseModel):
     client_name: str
     client_location: str
@@ -60,10 +60,24 @@ class VisitBase(BaseModel):
 class VisitCreate(VisitBase):
     pass
 
-# --- 4. MODIFY THE EXISTING 'Visit' SCHEMA ---
+# --- 4. ADD NEW SCHEMA FOR STATUS UPDATES ---
+# This schema is for the request body of our new PATCH endpoint
+# (Criterion 2: easily add reasons)
+class VisitStatusUpdate(BaseModel):
+    status: VisitStatus
+    reason: Optional[str] = None # Reason is optional
+
+# --- 5. MODIFY THE MAIN 'Visit' RESPONSE SCHEMA ---
+# Add the new status fields so the frontend can display them
 class Visit(VisitBase):
     id: int
-    resources: List[Resource] = [] # <-- MODIFY THIS LINE (add 'resources')
+    resources: List[Resource] = []
+    
+    # --- ADD THESE NEW FIELDS ---
+    status: VisitStatus = VisitStatus.scheduled # Default for existing
+    status_timestamp: Optional[datetime] = None
+    status_reason: Optional[str] = None
+    # --- END OF ADDITION ---
 
     class Config:
         from_attributes = True

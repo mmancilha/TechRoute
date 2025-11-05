@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="content-language" content="en-CA" />
+    <title>TechRoute – Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <div class="topbar" role="navigation" aria-label="Primary">
+      <div class="topbar-inner">
+        <header>
+          <h1>Technical Service Management</h1>
+        </header>
+
+        <nav class="nav-actions" aria-label="Primary navigation">
+          <a href="index.html" class="btn-toggle">New Appointment</a>
+        </nav>
+      </div>
+    </div>
+
+    <main class="container">
+      <div class="filter-bar" aria-label="Filters">
+        <label for="status-filter">Filter by status:</label>
+        <select id="status-filter">
+          <option value="All">All</option>
+          <option value="Scheduled">Scheduled</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+          <option value="Canceled">Canceled</option>
+          <option value="Rescheduled">Rescheduled</option>
+        </select>
+      </div>
+      <h2>Visit Dashboard</h2>
+
+      <section id="visit-list-container">
+        <p id="loading-message" aria-live="polite">Loading visits...</p>
+        <div id="loading-spinner" class="spinner" aria-hidden="true"></div>
+        <div id="visit-list"></div>
+      </section>
+    </main>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>
