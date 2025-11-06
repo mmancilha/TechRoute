@@ -1,9 +1,10 @@
+# backend/schemas.py
 from pydantic import BaseModel, Field
-from datetime import date, time, datetime # <-- 1. IMPORT DATETIME
+from datetime import date, time, datetime
 from enum import Enum
-from typing import List, Optional # <-- 2. IMPORT OPTIONAL
+from typing import List, Optional
 
-# ---  ADD NEW STATUS ENUM ---
+# --- (Todos os seus Enums existentes: VisitStatus, ServiceType, etc. - Sem mudanças) ---
 class VisitStatus(str, Enum):
     scheduled = "Scheduled"
     in_progress = "In Progress"
@@ -11,9 +12,7 @@ class VisitStatus(str, Enum):
     canceled = "Canceled"
     rescheduled = "Rescheduled"
 
-# --- (Enums ServiceType, Technician, ResourceType - Keep as-is) ---
 class ServiceType(str, Enum):
-    # ... (existing values)
     installation = "Installation"
     preventive_maintenance = "Preventive Maintenance"
     urgent_repair = "Urgent Repair"
@@ -24,7 +23,6 @@ class ServiceType(str, Enum):
     onsite_consultation = "On-site Consultation"
 
 class Technician(str, Enum):
-    # ... (existing values)
     olivia_brown = "Olivia Brown"
     liam_johnson = "Liam Johnson"
     emma_wilson = "Emma Wilson"
@@ -35,7 +33,7 @@ class ResourceType(str, Enum):
     tool = "Tool"
     equipment = "Equipment"
 
-# --- (Resource Schemas - Keep as-is) ---
+# --- (Resource Schemas - Sem mudanças) ---
 class ResourceBase(BaseModel):
     item_name: str
     item_type: ResourceType
@@ -48,7 +46,7 @@ class Resource(ResourceBase):
     visit_id: int
     class Config: from_attributes = True
 
-# --- (VisitBase & VisitCreate - Keep as-is) ---
+# --- (VisitBase, VisitCreate, VisitStatusUpdate - Sem mudanças) ---
 class VisitBase(BaseModel):
     client_name: str
     client_location: str
@@ -60,24 +58,44 @@ class VisitBase(BaseModel):
 class VisitCreate(VisitBase):
     pass
 
-# --- 4. ADD NEW SCHEMA FOR STATUS UPDATES ---
-# This schema is for the request body of our new PATCH endpoint
-# (Criterion 2: easily add reasons)
 class VisitStatusUpdate(BaseModel):
     status: VisitStatus
-    reason: Optional[str] = None # Reason is optional
+    reason: Optional[str] = None
 
-# --- 5. MODIFY THE MAIN 'Visit' RESPONSE SCHEMA ---
-# Add the new status fields so the frontend can display them
+# --- NOVOS SCHEMAS PARA TASK 4 ---
+class PostVisitNoteBase(BaseModel):
+    # O técnico só precisa enviar o conteúdo
+    content: str
+
+class PostVisitNoteCreate(PostVisitNoteBase):
+    pass
+
+class PostVisitNote(PostVisitNoteBase):
+    # O que a API retorna (para visualização)
+    id: int
+    created_at: datetime
+    visit_id: int
+
+    class Config:
+        from_attributes = True
+# --- FIM DOS NOVOS SCHEMAS ---
+
+
+# --- MODIFICAÇÃO NO SCHEMA 'Visit' ---
+# O schema de resposta principal da Visita
 class Visit(VisitBase):
     id: int
     resources: List[Resource] = []
     
-    # --- ADD THESE NEW FIELDS ---
-    status: VisitStatus = VisitStatus.scheduled # Default for existing
+    # (Campos de status existentes)
+    status: VisitStatus = VisitStatus.scheduled
     status_timestamp: Optional[datetime] = None
     status_reason: Optional[str] = None
-    # --- END OF ADDITION ---
+    
+    # --- ADICIONAR ESTA LINHA (Critério 2) ---
+    # Agora, quando buscarmos uma visita, ela incluirá suas notas.
+    notes: List[PostVisitNote] = []
+    # --- FIM DA ADIÇÃO ---
 
     class Config:
         from_attributes = True

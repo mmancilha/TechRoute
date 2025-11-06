@@ -269,11 +269,72 @@ button:disabled {
     cursor: not-allowed;
 }
 
+/* === Botões padronizados (base e variantes) === */
+.btn,
+button.btn {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 180ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+/* Primário (equivalente ao button padrão) */
+.btn-primary,
+button.btn-primary,
+.btn,
+button.btn {
+    background-color: var(--primary);
+    color: #ffffff;
+    border: 1px solid transparent;
+    box-shadow: 0 6px 16px rgba(187, 134, 252, 0.25);
+}
+.btn-primary:hover,
+button.btn-primary:hover,
+.btn:hover,
+button.btn:hover { background-color: var(--primary-hover); box-shadow: 0 10px 24px rgba(187, 134, 252, 0.35); }
+.btn-primary:active,
+button.btn-primary:active,
+.btn:active,
+button.btn:active { background-color: var(--primary-active); transform: translateY(1px); }
+.btn-primary:focus-visible,
+button.btn-primary:focus-visible,
+.btn:focus-visible,
+button.btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring), 0 8px 20px rgba(187, 134, 252, 0.35); }
+.btn-primary:disabled,
+button.btn-primary:disabled,
+.btn:disabled,
+button.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Variante escura padronizada (neutra) */
+.btn-dark,
+button.btn-dark {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+.btn-dark:hover,
+button.btn-dark:hover { background-color: #2a2a2a; }
+.btn-dark:active,
+button.btn-dark:active { background-color: #252525; transform: translateY(1px); }
+.btn-dark:focus-visible,
+button.btn-dark:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
+.btn-dark:disabled,
+button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
+
 /* Link com estilo de botão (para anchors) */
 /* Anchor com estilo de botão ESCURO (consistente com .button-secondary) */
 .link-button-dark {
     display: block;
-    width: min(100%, 320px);
+    width: 100%;
     padding: 12px 16px;
     background-color: var(--surface-2);
     color: var(--text-muted);
@@ -291,6 +352,28 @@ button:disabled {
 .link-button-dark:active { transform: translateY(1px); background-color: #252525; }
 .link-button-dark:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
 .link-button-dark.disabled { opacity: 0.6; pointer-events: none; }
+
+/* === Textarea padronizado === */
+.form-group textarea {
+    background-color: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 12px 14px;
+    min-height: 120px;
+    max-height: 260px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.form-group textarea::placeholder { color: #8a8a8a; }
+.form-group textarea:hover { background-color: #252525; }
+.form-group textarea:focus-visible { border-color: var(--primary); box-shadow: 0 0 0 3px var(--focus-ring); }
+.form-group textarea[readonly],
+.form-group textarea:disabled { background-color: #242424; color: var(--text-muted); border-color: #2a2a2a; }
 
 /* Accessible visually hidden utility */
 .visually-hidden {

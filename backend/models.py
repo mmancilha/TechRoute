@@ -1,8 +1,6 @@
-
-# 1. IMPORT DATETIME and func
 from sqlalchemy import (
     create_engine, Column, Integer, String, Date, Time, 
-    Enum as SQLAlchemyEnum, ForeignKey, DateTime, func
+    Enum as SQLAlchemyEnum, ForeignKey, DateTime, func, Text
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
@@ -16,6 +14,7 @@ engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+
 # --- Resource Model (as-is) ---
 class Resource(Base):
     __tablename__ = "resources"
@@ -25,11 +24,28 @@ class Resource(Base):
     visit_id = Column(Integer, ForeignKey("technical_visits.id"))
     visit = relationship("TechnicalVisit", back_populates="resources")
 
+
+# --- NEW MODEL FOR TASK 4 ---
+class PostVisitNote(Base):
+    __tablename__ = "post_visit_notes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=func.now())
+    
+    # Link to the visit
+    visit_id = Column(Integer, ForeignKey("technical_visits.id"))
+    
+    # Relationship
+    visit = relationship("TechnicalVisit", back_populates="notes")
+# --- END OF NEW MODEL ---
+
+
 # --- MODIFIED: TechnicalVisit Model ---
 class TechnicalVisit(Base):
     __tablename__ = "technical_visits"
 
-    # --- (Existing Columns) ---
+    # --- (Existing Columns as-is) ---
     id = Column(Integer, primary_key=True, index=True)
     client_name = Column(String, index=True)
     client_location = Column(String)
@@ -38,29 +54,35 @@ class TechnicalVisit(Base):
     visit_date = Column(Date)
     visit_time = Column(Time)
     
-    # --- 2. ADD THESE NEW STATUS COLUMNS ---
+    # --- (Status Columns as-is) ---
     status = Column(
         SQLAlchemyEnum(schemas.VisitStatus), 
         nullable=False, 
         default=schemas.VisitStatus.scheduled
     )
-    # Criterion 1: updated correctly with a timestamp
     status_timestamp = Column(
         DateTime, 
         default=func.now(), 
         onupdate=func.now()
     )
-    # Criterion 2: add reasons
     status_reason = Column(String, nullable=True)
-    # --- END OF ADDITION ---
-
-    # Relationship (as-is)
+    
+    # --- (Resource Relationship as-is) ---
     resources = relationship(
         "Resource", 
         back_populates="visit", 
         cascade="all, delete-orphan"
     )
 
+    # --- ADD NEW RELATIONSHIP FOR TASK 4 ---
+    notes = relationship(
+        "PostVisitNote",
+        back_populates="visit",
+        cascade="all, delete-orphan",
+        order_by="PostVisitNote.created_at.desc()" # Show newest notes first
+    )
+    # --- END OF ADDITION ---
+
 # --- Create tables ---
-# This will now add the new columns to 'technical_visits'
+# This will now add the new 'post_visit_notes' table
 Base.metadata.create_all(bind=engine)

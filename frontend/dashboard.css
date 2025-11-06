@@ -2,231 +2,314 @@
 
 /* Navigation link styling */
 header nav {
-    text-align: center;
-    margin-bottom: 20px;
-    display: flex;
-    gap: 16px;
-    justify-content: center;
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
 }
 header nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: background-color 160ms ease, color 160ms ease;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 header nav a:hover {
-    background-color: var(--surface-2);
-    color: var(--text);
+  background-color: var(--surface-2);
+  color: var(--text);
 }
 header nav a.active {
-    color: var(--primary);
-    font-weight: 600;
+  color: var(--primary);
+  font-weight: 600;
 }
 
 /* Visit Card Styling */
 .filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 .filter-bar label {
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 .filter-bar select {
-    appearance: none;
-    background-color: var(--surface-2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 1rem;
-    padding: 10px 12px;
-    outline: none;
-    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  appearance: none;
+  background-color: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease,
+    background-color 160ms ease;
 }
-.filter-bar select:hover { background-color: #252525; }
-.filter-bar select:focus-visible { border-color: var(--primary); box-shadow: 0 0 0 3px var(--focus-ring); }
+.filter-bar select:hover {
+  background-color: #252525;
+}
+.filter-bar select:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
 .visit-card {
-    background-color: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px var(--shadow);
-    overflow: hidden;
-    transition: box-shadow 160ms ease;
-    min-height: 320px; /* tamanho padrão médio */
-    display: flex;
-    flex-direction: column;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px var(--shadow);
+  overflow: hidden;
+  transition: box-shadow 160ms ease;
+  min-height: 320px; /* tamanho padrão médio */
+  display: flex;
+  flex-direction: column;
 }
 .visit-card:hover {
-    box-shadow: 0 8px 24px var(--shadow);
+  box-shadow: 0 8px 24px var(--shadow);
+}
+
+.card-notes-section {
+  padding: 20px 24px;              /* Alinhado com .card-body */
+  border-top: 1px solid var(--border);
+}
+.card-notes-section h4 {
+  margin: 0 0 12px;                /* Espaço respira antes da lista/form */
+  font-weight: 600;
 }
 
 .card-header {
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .card-header h3 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .card-body {
-    padding: 20px 24px;
-    line-height: 1.6;
-    flex: 1 1 auto; /* ocupa o espaço para manter altura uniforme */
+  padding: 20px 24px;
+  line-height: 1.6;
+  flex: 1 1 auto; /* ocupa o espaço para manter altura uniforme */
 }
 .card-body p {
-    margin: 0 0 8px;
-    color: var(--text-muted);
+  margin: 0 0 8px;
+  color: var(--text-muted);
 }
 .card-body p strong {
-    color: var(--text);
-    min-width: 100px;
-    display: inline-block;
+  color: var(--text);
+  min-width: 100px;
+  display: inline-block;
 }
 
 /* Status Controls */
 .card-footer {
-    background-color: var(--surface-2);
-    padding: 20px 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-items: center;
+  background-color: var(--surface-2);
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
 }
 .card-footer .status-select {
-    /* Estilo idêntico ao select da tela principal */
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-color: var(--surface-2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 12px 14px;
-    outline: none;
-    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 18px 18px;
-    padding-right: 44px; /* espaço para a seta */
-    flex-grow: 1;
-    min-width: 180px;
+  /* Estilo idêntico ao select da tela principal */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease,
+    background-color 160ms ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px 18px;
+  padding-right: 44px; /* espaço para a seta */
+  flex-grow: 1;
+  min-width: 180px;
 }
-.card-footer .status-select:hover { background-color: #252525; }
-.card-footer .status-select:focus-visible { border-color: var(--primary); box-shadow: 0 0 0 3px var(--focus-ring); }
+.card-footer .status-select:hover {
+  background-color: #252525;
+}
+.card-footer .status-select:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
 .card-footer .reason-input {
-    /* Base styles from style.css */
-    background-color: #2c2c2c;
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 1rem;
-    padding: 12px 14px;
-    outline: none;
-    transition: all 160ms ease;
-    
-    /* Specific styles */
-    flex-basis: 100%; /* Take full width */
-    min-height: 60px;
-    resize: vertical;
-    display: none; /* Hidden by default */
+  /* Base styles from style.css */
+  background-color: #2c2c2c;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 12px 14px;
+  outline: none;
+  transition: all 160ms ease;
+
+  /* Specific styles */
+  flex-basis: 100%; /* Take full width */
+  min-height: 60px;
+  resize: vertical;
+  display: none; /* Hidden by default */
 }
 .card-footer .reason-input:focus-visible {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--focus-ring);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 .card-footer .reason-input.visible {
-    display: block; /* Show when needed */
+  display: block; /* Show when needed */
 }
 
 /* Reschedule inputs */
 .card-footer .reschedule-date,
 .card-footer .reschedule-time {
-    background-color: var(--surface-2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 1rem;
-    padding: 10px 12px;
-    outline: none;
-    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
-    display: none; /* hidden by default */
+  background-color: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease,
+    background-color 160ms ease;
+  display: none; /* hidden by default */
 }
 .card-footer .reschedule-date.visible,
 .card-footer .reschedule-time.visible {
-    display: block;
+  display: block;
 }
 .card-footer .reschedule-date:focus-visible,
 .card-footer .reschedule-time:focus-visible {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--focus-ring);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
+/* === ESTILO DE BOTÃO ESCURO REUTILIZÁVEL === */
+/* Botão escuro padronizado: usa o padrão global de style.css */
+.btn-dark { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
+
+/* --- Layout do formulário de notas: textarea maior e botão reduzido --- */
+.card-notes-section .note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+.card-notes-section .note-form .note-input {
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+}
+.card-notes-section .note-form .add-note-btn {
+  width: 100%;
+  max-width: 220px;
+  margin-inline: auto;
+}
+
+/* Em telas pequenas, mantém centralização e largura acessível */
+@media (max-width: 560px) {
+  .card-notes-section .note-form .note-input { max-width: 100%; }
+  .card-notes-section .note-form .add-note-btn { max-width: 100%; }
+}
+
+/* --- Proporções na footer de status: inputs maiores que botão --- */
+.card-footer .status-select,
+.card-footer .reason-input,
+.card-footer .reschedule-date,
+.card-footer .reschedule-time {
+  flex: 1 1 220px;
+  min-width: 220px;
+}
 .card-footer .update-status-btn {
-    /* Botão escuro, consistente com tema dark e com .link-button-dark */
-    width: 100%;
-    padding: 12px 16px;
-    background-color: var(--surface-2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: none;
-    transition: transform 120ms ease, background-color 160ms ease, color 160ms ease;
+  width: auto;
+  min-width: 160px;
 }
-.card-footer .update-status-btn:hover {
-    background-color: #2a2a2a;
-    color: var(--text);
-}
-.card-footer .update-status-btn:active { background-color: #252525; transform: translateY(1px); }
-.card-footer .update-status-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
 
 /* Status Badge Colors */
 .status-badge {
-    padding: 5px 12px;
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.status-badge.status-scheduled { background-color: #3b82f6; color: white; }
-.status-badge.status-in_progress { background-color: #f59e0b; color: #1e1e1e; }
-.status-badge.status-completed { background-color: #22c55e; color: #1e1e1e; }
-.status-badge.status-canceled { background-color: #ef4444; color: white; }
-.status-badge.status-rescheduled { background-color: #a855f7; color: white; }
+.status-badge.status-scheduled {
+  background-color: #3b82f6;
+  color: white;
+}
+.status-badge.status-in_progress {
+  background-color: #f59e0b;
+  color: #1e1e1e;
+}
+.status-badge.status-completed {
+  background-color: #22c55e;
+  color: #1e1e1e;
+}
+.status-badge.status-canceled {
+  background-color: #ef4444;
+  color: white;
+}
+.status-badge.status-rescheduled {
+  background-color: #a855f7;
+  color: white;
+}
 
 /* Loading spinner */
 .spinner {
-    width: 28px;
-    height: 28px;
-    border: 3px solid var(--surface-2);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
-    margin: 12px auto;
-    display: none; /* hidden by default */
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--surface-2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin: 12px auto;
+  display: none; /* hidden by default */
 }
-.spinner.visible { display: block; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Navegação usa estilos globais em style.css (.nav-actions, .btn-toggle) */
+.spinner.visible {
+  display: block;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* === Textarea de notas padronizado e responsivo === */
+.note-form .note-input {
+  background-color: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 12px 14px;
+  width: 100%;
+  min-height: 120px;
+  max-height: 260px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.note-form .note-input::placeholder { color: #8a8a8a; }
+.note-form .note-input:hover { background-color: #252525; }
+.note-form .note-input:focus-visible { border-color: var(--primary); box-shadow: 0 0 0 3px var(--focus-ring); }
+.note-form .note-input.read-only,
+.note-form .note-input:disabled { background-color: #242424; color: var(--text-muted); border-color: #2a2a2a; }

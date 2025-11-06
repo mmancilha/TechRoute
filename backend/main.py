@@ -1,3 +1,4 @@
+# backend/main.py
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -8,7 +9,7 @@ from typing import List
 from backend import models, schemas
 from backend.models import SessionLocal, engine
 
-# This creates/updates the tables (incl. new status columns)
+# This creates/updates all tables (incl. new 'post_visit_notes' table)
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -101,14 +102,13 @@ def read_visits(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 @app.get("/api/visits/{visit_id}", response_model=schemas.Visit)
 def read_visit(visit_id: int, db: Session = Depends(get_db)):
     """
-    Retrieve a single visit by its ID, including resources and status.
+    Retrieve a single visit by its ID, including resources, status, and notes.
     """
     db_visit = db.query(models.TechnicalVisit).filter(models.TechnicalVisit.id == visit_id).first()
     if db_visit is None:
         raise HTTPException(status_code=404, detail="Visit not found")
     return db_visit
 
-# --- NEW ENDPOINT FOR TASK 3 ---
 @app.patch("/api/visits/{visit_id}/status", response_model=schemas.Visit)
 def update_visit_status(
     visit_id: int, 
@@ -128,16 +128,31 @@ def update_visit_status(
     # Update the fields
     db_visit.status = status_update.status
     
-    # Criterion 2: Add reason if provided
     if status_update.reason is not None:
         db_visit.status_reason = status_update.reason
-    else:
-        # Clear reason if status changes and no new reason is given
-        db_visit.status_reason = None
-
-    # Criterion 1: Timestamp is updated automatically via onupdate=func.now()
     
+    # Commit changes and refresh instance
     db.commit()
     db.refresh(db_visit)
-    
     return db_visit
+
+
+# --- NEW: Create post-visit note ---
+@app.post("/api/visits/{visit_id}/notes", response_model=schemas.PostVisitNote)
+def create_post_visit_note(
+    visit_id: int,
+    note: schemas.PostVisitNoteCreate,
+    db: Session = Depends(get_db)
+):
+    """
+    Create a new post-visit note associated with a visit.
+    """
+    db_visit = db.query(models.TechnicalVisit).filter(models.TechnicalVisit.id == visit_id).first()
+    if db_visit is None:
+        raise HTTPException(status_code=404, detail="Visit not found")
+
+    db_note = models.PostVisitNote(content=note.content, visit_id=visit_id)
+    db.add(db_note)
+    db.commit()
+    db.refresh(db_note)
+    return db_note
