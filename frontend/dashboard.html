@@ -14,7 +14,6 @@
         <header>
           <h1>Technical Service Management</h1>
         </header>
-
         <nav class="nav-actions" aria-label="Primary navigation">
           <a href="index.html" class="btn-toggle">New Appointment</a>
         </nav>
@@ -34,7 +33,6 @@
             <option value="Rescheduled">Rescheduled</option>
           </select>
         </div>
-
         <div class="filter-group">
           <label for="technician-filter">Filter by technician:</label>
           <select id="technician-filter">
@@ -46,12 +44,33 @@
           </select>
         </div>
       </div>
+
+      <div class="view-toggle-bar">
+        <button
+          id="view-toggle-list"
+          class="view-toggle-btn active"
+          aria-pressed="true"
+        >
+          List View
+        </button>
+        <button
+          id="view-toggle-calendar"
+          class="view-toggle-btn"
+          aria-pressed="false"
+        >
+          Calendar View
+        </button>
+      </div>
       <h2>Visit Dashboard</h2>
 
-      <section id="visit-list-container">
+      <section id="card-view-container">
         <p id="loading-message" aria-live="polite">Loading visits...</p>
         <div id="loading-spinner" class="spinner" aria-hidden="true"></div>
         <div id="visit-list"></div>
+      </section>
+
+      <section id="calendar-view-container" class="hidden">
+        <div id="calendar-days"></div>
       </section>
     </main>
 
