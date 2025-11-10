@@ -1,5 +1,3 @@
-/* frontend/style.css (COMPLETO E CORRIGIDO) */
-
 :root {
     --bg: #121212;
     --surface: #1e1e1e;
@@ -12,7 +10,6 @@
     --primary-active: #a66bf2;
     --shadow: rgba(0,0,0,0.45);
     --focus-ring: rgba(187,134,252,0.5);
-    /* Força controles nativos a usarem esquema dark */
     color-scheme: dark;
 }
 
@@ -25,14 +22,10 @@ body {
     padding: 24px;
     line-height: 1.5;
     min-height: 100vh;
-    /* REMOVIDO: display: grid; */
-    /* REMOVIDO: place-items: center; */
 }
 
-/* === MODIFICADO: Header foi movido para a topbar === */
 header {
     text-align: center;
-    /* margin-bottom foi removido, será controlado pela topbar */
 }
 
 header h1 {
@@ -45,7 +38,7 @@ header h1 {
     display: inline-block;
     will-change: transform, opacity;
     animation: fadeSlideIn 500ms ease-out both;
-    margin: var(--space-8) 0; /* Espaçamento original do h1 */
+    margin: var(--space-8) 0;
 }
 
 @keyframes fadeSlideIn {
@@ -76,22 +69,16 @@ header h1:hover::after {
     box-shadow: 0 4px 18px rgba(0,0,0,0.45);
 }
 
-/* REGRAS DE NAVEGAÇÃO ANTIGAS (DELETADAS)
-   .nav-actions { ... }
-   .btn-toggle { ... }
-   .btn-toggle:hover { ... }
-   .btn-toggle.is-selected { ... }
-   Foram substituídas pelas regras mais novas no final do arquivo.
-*/
+
 
 .container {
     width: min(100%, 960px);
     margin: 0 auto;
     display: grid;
-    gap: 24px;                  /* Espaçamento consistente entre header, form e cards */
+    gap: 24px;
 }
 
-/* Fixed topbar for primary navigation */
+
 .topbar {
     position: fixed;
     top: 0;
@@ -125,11 +112,10 @@ header h1:hover::after {
     font-weight: 600;
 }
 
-/* Spacing below title and quick access button on index */
 #quick-access { margin-top: 12px; }
 
 .form-group {
-    margin-bottom: 16px;        /* Espaçamento vertical entre campos */
+    margin-bottom: 16px;
     display: flex;
     flex-direction: column;
 }
@@ -140,13 +126,12 @@ header h1:hover::after {
     color: var(--text-muted);
 }
 
-/* Inputs e selects */
 .form-group input,
 .form-group select {
     background-color: var(--surface-2);
     color: var(--text);
     border: 1px solid var(--border);
-    border-radius: 8px; /* requisito */
+    border-radius: 8px;
     font-family: inherit;
     font-size: 1rem;
     font-weight: 400;
@@ -177,10 +162,9 @@ header h1:hover::after {
     background-repeat: no-repeat;
     background-position: right 12px center;
     background-size: 18px 18px;
-    padding-right: 44px; /* espaço para a seta */
+    padding-right: 44px;
 }
 
-/* Date/Time picker indicadores (webkit) */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
     background-color: transparent;
@@ -188,14 +172,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     filter: none;
 }
 
-/* Controles nativos (Chrome/Edge) em dark e alinhados ao tema */
 input[type="date"],
 input[type="time"] {
-    color-scheme: dark; /* Aplica dark aos popups nativos */
+    color-scheme: dark;
     accent-color: var(--primary);
 }
 
-/* Campos internos do editor de data/hora */
 input[type="date"]::-webkit-datetime-edit,
 input[type="time"]::-webkit-datetime-edit {
     color: var(--text);
@@ -220,28 +202,25 @@ input[type="time"]::-webkit-datetime-edit-text {
     padding: 0 2px;
 }
 
-/* Botões internos do time picker */
 input[type="time"]::-webkit-inner-spin-button {
     background: transparent;
 }
 
-/* Agrupadores lado a lado */
 .form-group-inline {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;                  /* Espaçamento horizontal entre colunas */
+    gap: 20px;
 }
 
 .form-group-inline .form-group { flex: 1; }
 
-/* Botão de submit com transição */
 button {
-    width: 100%;                /* Botão ocupa a largura do card, não da tela */
+    width: 100%;
     padding: 12px 16px;
     background-color: var(--primary);
-    color: #ffffff; /* texto principal em contraste */
+    color: #ffffff;
     border: 1px solid transparent;
-    border-radius: 8px; /* coeso com inputs */
+    border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -269,7 +248,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* === Botões padronizados (base e variantes) === */
 .btn,
 button.btn {
     width: 100%;
@@ -281,7 +259,6 @@ button.btn {
     transition: transform 120ms ease, box-shadow 180ms ease, background-color 160ms ease, color 160ms ease;
 }
 
-/* Primário (equivalente ao button padrão) */
 .btn-primary,
 button.btn-primary,
 .btn,
@@ -308,7 +285,6 @@ button.btn-primary:disabled,
 .btn:disabled,
 button.btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* Variante escura padronizada (neutra) */
 .btn-dark,
 button.btn-dark {
     width: 100%;
@@ -330,8 +306,6 @@ button.btn-dark:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus
 .btn-dark:disabled,
 button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Link com estilo de botão (para anchors) */
-/* Anchor com estilo de botão ESCURO (consistente com .button-secondary) */
 .link-button-dark {
     display: block;
     width: 100%;
@@ -346,14 +320,13 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     text-decoration: none;
     box-shadow: none;
     transition: transform 120ms ease, background-color 160ms ease, color 160ms ease;
-    margin: 8px auto 0; /* centra e evita ficar imenso */
+    margin: 8px auto 0;
 }
 .link-button-dark:hover { background-color: #2a2a2a; color: var(--text); }
 .link-button-dark:active { transform: translateY(1px); background-color: #252525; }
 .link-button-dark:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
 .link-button-dark.disabled { opacity: 0.6; pointer-events: none; }
 
-/* === Textarea padronizado === */
 .form-group textarea {
     background-color: var(--surface-2);
     color: var(--text);
@@ -375,7 +348,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
 .form-group textarea[readonly],
 .form-group textarea:disabled { background-color: #242424; color: var(--text-muted); border-color: #2a2a2a; }
 
-/* Accessible visually hidden utility */
 .visually-hidden {
     position: absolute !important;
     width: 1px; height: 1px;
@@ -386,7 +358,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     border: 0;
 }
 
-/* Mensagens do formulário */
 #form-message {
     text-align: center;
     margin-top: 14px;
@@ -394,7 +365,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     color: var(--text-muted);
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .container { gap: 20px; }
     #visit-form { padding: 22px; }
@@ -404,7 +374,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     .form-group-inline { grid-template-columns: 1fr; gap: 12px; }
 }
 
-/* Acessibilidade: reduzir motion se preferido */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -418,21 +387,19 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     header h1 { animation: none !important; }
 }
 
-/* Resource Allocator Card (hidden by default) */
 #resource-allocator {
-    display: none; /* Hidden by default */
+    display: none;
     background-color: var(--surface);
     padding: 28px;
     border-radius: 12px;
     border: 1px solid var(--border);
     box-shadow: 0 8px 24px var(--shadow);
-    margin-top: 30px; /* Space from the form above */
+    margin-top: 30px;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 300ms ease-out, transform 300ms ease-out;
 }
 
-/* Class to show the card */
 #resource-allocator.visible {
     display: block;
     opacity: 1;
@@ -443,10 +410,9 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     margin: 0 0 20px;
     text-align: left;
     font-weight: 600;
-    color: var(--primary); /* Highlight the title */
+    color: var(--primary);
 }
 
-/* Make the 'Add Resource' button secondary */
 .button-secondary {
     background-color: var(--surface-2);
     color: var(--text-muted);
@@ -462,7 +428,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     background-color: #252525;
 }
 
-/* Resource List */
 #resource-list-container {
     margin-top: 25px;
     border-top: 1px solid var(--border);
@@ -487,7 +452,7 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap; /* permite o formulário inline ocupar a linha */
+    flex-wrap: wrap;
     gap: 8px;
     font-size: 0.95rem;
     border-left: 3px solid var(--primary);
@@ -508,7 +473,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     text-align: center;
 }
 
-/* Resource item actions */
 .resource-actions {
     display: flex;
     gap: 8px;
@@ -529,7 +493,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
 .icon-btn.save { color: #7bd389; border-color: #7bd389; }
 .icon-btn.cancel { color: var(--text-muted); }
 
-/* Inline edit form within list item */
 .inline-edit-form {
     display: grid;
     grid-template-columns: 1fr 160px auto auto;
@@ -538,7 +501,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     width: 100%;
 }
 
-/* "Done" button at the bottom */
 #done-allocating-btn {
     margin-top: 20px;
     background-color: var(--primary-active);
@@ -550,14 +512,12 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
     --motion-duration: 300ms;
 }
-/* Topbar visual refinements */
 .topbar {
     background: linear-gradient(180deg, rgba(18,18,18,0.85), rgba(18,18,18,0.55));
     border-bottom: 1px solid rgba(42, 42, 42, 0.55);
     box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 6px 24px rgba(0,0,0,0.25);
 }
 
-/* Selected toggle divider (decorative) */
 .btn-toggle.is-selected::after,
 .btn-toggle[aria-current="page"]::after {
     content: "/";
@@ -572,7 +532,6 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
     color: #ffffffcc;
     font-weight: 700;
 }
-/* === Layout base e tokens para consistência entre páginas === */
 :root {
     --topbar-height: 64px;
     --container-max-width: 980px;
@@ -589,59 +548,53 @@ button.btn-dark:disabled { opacity: 0.5; cursor: not-allowed; }
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
-/* Conteúdo flui por trás da topbar fixa */
 body { min-height: 100vh; padding-top: 0; }
 
 .container { max-width: var(--container-max-width); margin: 0 auto; padding: 0 var(--space-6); }
 main.container {
-    /* Centraliza melhor sem criar grande espaço inferior em telas grandes */
     margin-top: clamp(56px, 10vh, 96px);
     min-height: 0;
 }
 
-/* === MODIFICADO: 'justify-content' mudado para 'space-between' === */
 .topbar-inner,
 .topbar .container {
     height: var(--topbar-height);
     display: flex;
     align-items: center;
-    justify-content: space-between; /* <-- Alinha título à esquerda, nav à direita */
+    justify-content: space-between;
     gap: var(--space-6);
     padding: 0 var(--space-6);
 }
 
-/* Container de navegação na topbar: alinhamento e espaçamento dos botões */
 .topbar .nav-actions {
     display: flex;
     align-items: center;
     gap: var(--space-6);
-    margin: 0; /* garante que não empurre o título */
+    margin: 0;
 }
 
-/* === MODIFICADO: Estilo do botão INATIVO (sem caixa) === */
 .nav-actions .btn-toggle,
 .topbar .btn-toggle {
     appearance: none;
-    border: 1px solid transparent; /* <-- Borda transparente */
-    background: transparent; /* <-- Fundo transparente */
-    color: var(--text-muted); /* <-- Cor de texto inativa */
-    padding: 10px 16px; /* levemente menor para melhor baseline na topbar */
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    padding: 10px 16px;
     border-radius: var(--radius-12);
     cursor: pointer;
-    transition: background-color 220ms ease, box-shadow 220ms ease, transform 120ms ease, color 220ms ease; /* <-- Transição de cor adicionada */
-    min-height: 36px; /* altura reduzida para harmonizar com o título fixo */
+    transition: background-color 220ms ease, box-shadow 220ms ease, transform 120ms ease, color 220ms ease;
+    min-height: 36px;
     line-height: 1;
     font-weight: 600;
     font-size: 1rem;
     letter-spacing: 0.2px;
     text-decoration: none;
 }
-/* === MODIFICADO: Hover do botão INATIVO (só texto) === */
 .nav-actions .btn-toggle:hover:not([aria-current="page"]),
 .topbar .btn-toggle:hover:not([aria-current="page"]) {
-    background: transparent; /* <-- Sem fundo */
-    color: var(--text); /* <-- Texto mais claro */
-    box-shadow: none; /* <-- Sem sombra */
+    background: transparent;
+    color: var(--text);
+    box-shadow: none;
     text-decoration: underline;
 }
 .nav-actions .btn-toggle:active,
@@ -653,7 +606,6 @@ main.container {
     border-radius: 8px;
 }
 
-/* === Estilo do botão ATIVO (roxo) - Sem mudança === */
 .nav-actions .btn-toggle.is-selected,
 .nav-actions .btn-toggle[aria-current="page"],
 .topbar .btn-toggle.is-selected,
@@ -680,10 +632,8 @@ main.container {
     font-weight: 700;
 }
 
-/* === Tipografia (sem mudança) === */
 header h1 { margin: var(--space-8) 0; }
 
-/* === Responsividade (sem mudança) === */
 @media (max-width: 768px) {
   :root { --topbar-height: 56px; }
   header h1 { margin: var(--space-6) 0; }
@@ -697,25 +647,21 @@ header h1 { margin: var(--space-8) 0; }
   main.container { margin-top: clamp(32px, 7vh, 52px); }
 }
 
-/* === ADIÇÃO: Estilos para o H1 dentro da Topbar e Hover do botão Ativo === */
 
-/* 1. Ajusta o H1 que foi movido para a topbar */
 .topbar header {
     margin: 0;
     text-align: left;
 }
 .topbar header h1 {
-    font-size: 1.5rem; /* Tamanho de "logo" */
+    font-size: 1.5rem;
     margin: 0;
     animation: none;
     text-shadow: none;
 }
-/* Esconde a linha gradiente debaixo do h1 */
 .topbar header h1::after {
     display: none;
 }
 
-/* 2. Adiciona o hover de volta para o botão ATIVO (roxo) */
 .nav-actions .btn-toggle[aria-current="page"]:hover,
 .topbar .btn-toggle[aria-current="page"]:hover {
     background: linear-gradient(180deg, var(--primary-hover), var(--primary-active));

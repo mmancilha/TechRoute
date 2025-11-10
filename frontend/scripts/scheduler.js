@@ -1,12 +1,8 @@
-// API Base URL (Good practice to define it once)
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = window.API_URL;
 
-// === 1. GET ALL ELEMENTS ===
-// --- Visit Form (Existing) ---
 const visitForm = document.getElementById('visit-form');
 const visitFormMessage = document.getElementById('form-message');
 
-// --- Resource Allocator (New) ---
 const resourceAllocator = document.getElementById('resource-allocator');
 const allocatorTitle = document.getElementById('allocator-title');
 const resourceForm = document.getElementById('resource-form');
@@ -16,7 +12,6 @@ const currentVisitIdInput = document.getElementById('current_visit_id');
 const doneAllocatingBtn = document.getElementById('done-allocating-btn');
 
 
-// === 2. VISIT FORM SUBMIT HANDLER (Modified) ===
 visitForm.addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent default page reload
     const form = event.target;
@@ -35,12 +30,7 @@ visitForm.addEventListener('submit', async function(event) {
         if (response.ok) {
             const newVisit = await response.json();
             console.log('Visit created:', newVisit);
-            
-            // --- THIS IS THE KEY CHANGE ---
-            // Instead of just showing a message, show the allocator
             showAllocator(newVisit);
-            // --- END OF KEY CHANGE ---
-            
         } else {
             const errorData = await response.json();
             console.error('Error scheduling:', errorData);
@@ -55,7 +45,6 @@ visitForm.addEventListener('submit', async function(event) {
     }
 });
 
-// === 3. RESOURCE FORM SUBMIT HANDLER (New) ===
 resourceForm.addEventListener('submit', async function(event) {
     event.preventDefault();
     resourceMessage.textContent = '';
@@ -85,8 +74,8 @@ resourceForm.addEventListener('submit', async function(event) {
         if (response.ok) {
             const newResource = await response.json();
             console.log('Resource added:', newResource);
-            renderResource(newResource); // Add to list
-            resourceForm.reset(); // Clear the form
+            renderResource(newResource);
+            resourceForm.reset();
         } else {
             const errorData = await response.json();
             console.error('Error adding resource:', errorData);
@@ -100,56 +89,33 @@ resourceForm.addEventListener('submit', async function(event) {
     }
 });
 
-// === 4. "DONE" BUTTON HANDLER (New) ===
 doneAllocatingBtn.addEventListener('click', () => {
-    // Hide allocator
     resourceAllocator.classList.remove('visible');
-    
-    // Show and reset main form
     visitForm.style.display = 'block';
     visitForm.reset();
     visitFormMessage.textContent = 'New appointment successfully created.';
     visitFormMessage.style.color = 'lightgreen';
-
-    // Redirect to dashboard to review the newly created visit
     window.location.href = 'dashboard.html';
 });
 
-
-// === 5. HELPER FUNCTIONS (New) ===
-
-/**
- * Shows the Resource Allocator card and fetches existing resources.
- * @param {object} visit - The visit object returned from the API.
- */
 function showAllocator(visit) {
-    // 1. Hide the main form
     visitForm.style.display = 'none';
     
-    // 2. Set up the allocator card
     allocatorTitle.textContent = `Allocate Resources for Visit #${visit.id}`;
     currentVisitIdInput.value = visit.id;
-    resourceList.innerHTML = ''; // Clear any old items
+    resourceList.innerHTML = '';
     resourceMessage.textContent = 'Loading existing resources...';
 
-    // 3. Show the allocator card
     resourceAllocator.classList.add('visible');
 
-    // 4. Fetch any resources already associated with this visit
-    //    (This uses the new GET /api/visits/{visit_id} endpoint)
     fetchResources(visit.id);
 }
-
-/**
- * Fetches and renders all resources for a given visitId.
- * @param {number} visitId - The ID of the visit.
- */
 async function fetchResources(visitId) {
     try {
         const response = await fetch(`${API_URL}/api/visits/${visitId}`);
         if (response.ok) {
             const visitData = await response.json();
-            resourceList.innerHTML = ''; // Clear "loading" message
+            resourceList.innerHTML = '';
             if (visitData.resources && visitData.resources.length > 0) {
                 visitData.resources.forEach(renderResource);
             } else {
@@ -166,29 +132,21 @@ async function fetchResources(visitId) {
     }
 }
 
-/**
- * Creates and appends a new <li> item to the resource list.
- * @param {object} resource - The resource object.
- */
 function renderResource(resource) {
-    // Clear the "no resources" message if it exists
     if (resourceMessage.textContent) {
         resourceMessage.textContent = '';
     }
 
     const li = document.createElement('li');
     
-    // Item Name
     const nameSpan = document.createElement('span');
     nameSpan.className = 'item-name';
     nameSpan.textContent = resource.item_name;
     
-    // Item Type (styled badge)
     const typeSpan = document.createElement('span');
     typeSpan.className = 'item-type';
     typeSpan.textContent = resource.item_type;
 
-    // Actions (Edit/Delete)
     const actions = document.createElement('div');
     actions.className = 'resource-actions';
 
@@ -215,9 +173,7 @@ function renderResource(resource) {
     resourceList.appendChild(li);
 }
 
-// === Inline Edit ===
 function startEditResource(li, resource) {
-    // Snapshot original content
     const original = li.cloneNode(true);
     li.innerHTML = '';
 
@@ -268,9 +224,7 @@ function startEditResource(li, resource) {
             return;
         }
 
-        // Notify on restrictions
         if (resource.item_type === 'Equipment' && newType !== 'Equipment') {
-            // allow change but notify
             console.warn('Changing type from Equipment may affect constraints');
         }
 
@@ -284,7 +238,6 @@ function startEditResource(li, resource) {
                 const updated = await resp.json();
                 resourceMessage.textContent = 'Resource updated successfully.';
                 resourceMessage.style.color = 'lightgreen';
-                // Repaint item
                 li.innerHTML = '';
                 const nameSpan = document.createElement('span');
                 nameSpan.className = 'item-name';
@@ -322,14 +275,11 @@ function startEditResource(li, resource) {
     });
 
     cancelBtn.addEventListener('click', () => {
-        // Restore original item view
         li.replaceWith(original);
     });
 }
 
-// === Delete ===
 async function confirmDeleteResource(resource, li) {
-    // Client-side guard for essential items
     if (resource.item_type === 'Equipment') {
         resourceMessage.textContent = 'Equipment resources are essential and cannot be deleted.';
         resourceMessage.style.color = 'orangered';

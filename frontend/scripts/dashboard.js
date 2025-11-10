@@ -1,14 +1,10 @@
-// frontend/dashboard.js (COMPLETO - TASK 3 & 4)
-
-// Define the API URL
-const API_URL = "http://127.0.0.1:8000";
-const REFRESH_INTERVAL_MS = 30000; // 30s periodic refresh
+const API_URL = window.API_URL;
+const REFRESH_INTERVAL_MS = 30000;
 let refreshTimer = null;
 let currentFetchController = null;
 const ALLOWED_DASHBOARD_ROLES = ["admin", "manager", "dispatcher"];
-let allVisits = []; // holds last fetched visits for filtering
+let allVisits = [];
 
-// Wait for the DOM to be fully loaded before running the script
 document.addEventListener("DOMContentLoaded", () => {
   const loadingMessage = document.getElementById("loading-message");
   if (!canViewDashboard()) {
@@ -18,9 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Attach filter change handler
   const statusFilter = document.getElementById("status-filter");
+  const technicianFilter = document.getElementById("technician-filter");
+
   statusFilter?.addEventListener("change", renderVisitList);
+  technicianFilter?.addEventListener("change", renderVisitList);
 
   startAutoRefresh();
 });
@@ -45,22 +43,17 @@ function startAutoRefresh() {
   });
 }
 
-/**
- * Fetches all visits from the API and renders them.
- */
 async function fetchAllVisits() {
   const listContainer = document.getElementById("visit-list");
   const loadingMessage = document.getElementById("loading-message");
   const spinner = document.getElementById("loading-spinner");
 
   try {
-    // Abort any ongoing request to avoid overlap
     if (currentFetchController) {
       currentFetchController.abort();
     }
     currentFetchController = new AbortController();
 
-    // Show loader
     loadingMessage.style.display = "block";
     loadingMessage.textContent = "Loading visits...";
     loadingMessage.style.color = "";
@@ -76,13 +69,11 @@ async function fetchAllVisits() {
     const visits = await response.json();
     allVisits = visits;
 
-    // Clear loading message and render via filter
     loadingMessage.style.display = "none";
     renderVisitList();
   } catch (error) {
     console.error("Error fetching visits:", error);
     if (error.name === "AbortError") {
-      // silently ignore aborted fetches
       return;
     }
     loadingMessage.textContent = "Error loading visits. Is the API running?";
@@ -92,17 +83,12 @@ async function fetchAllVisits() {
   }
 }
 
-/**
- * Creates and appends a single visit card to the list.
- * @param {object} visit - The visit object from the API.
- */
 function renderVisitCard(visit) {
   const listContainer = document.getElementById("visit-list");
 
-  // Create the main card element
   const card = document.createElement("div");
   card.className = "visit-card";
-  card.dataset.visitId = visit.id; // Store the ID on the element
+  card.dataset.visitId = visit.id;
 
   const statusClass = visit.status.replace(/\s+/g, "_").toLowerCase();
   const visitDateTime = `${visit.visit_date} at ${visit.visit_time.substring(
@@ -110,7 +96,6 @@ function renderVisitCard(visit) {
     5
   )}`;
 
-  // Helper function to render notes list
   const notesHTML = visit.notes
     .map(
       (note) => `
@@ -127,7 +112,6 @@ function renderVisitCard(visit) {
     )
     .join("");
 
-  // --- CARD INNER HTML (with .btn-dark class fix) ---
   card.innerHTML = `
         <div class="card-header">
             <h3>Visit #${visit.id}: ${visit.client_name}</h3>
@@ -188,12 +172,8 @@ function renderVisitCard(visit) {
         </div>
     `;
 
-  // Append the new card to the list
   listContainer.appendChild(card);
 
-  // --- EVENT LISTENERS ---
-
-  // Status update listeners (existing)
   const statusSelect = card.querySelector(".status-select");
   const reasonInput = card.querySelector(".reason-input");
   const rescheduleDateInput = card.querySelector(".reschedule-date");
@@ -237,9 +217,7 @@ function renderVisitCard(visit) {
   }
   updateBtn.addEventListener("click", handleStatusUpdate);
 
-  // --- NEW: Note form submit listener (Task 4) ---
   const noteForm = card.querySelector(".note-form");
-  // Em visitas canceladas, não permitir adicionar notas
   if (visit.status === "Canceled") {
     noteForm.style.display = "none";
   } else {
@@ -247,12 +225,8 @@ function renderVisitCard(visit) {
   }
 }
 
-/**
- * Handles the submission of a new post-visit note.
- * (Criterion 1: Save observations)
- */
 async function handleNoteSubmit(event) {
-  event.preventDefault(); // Stop form from reloading page
+  event.preventDefault();
   const form = event.target;
   const card = form.closest(".visit-card");
   const visitId = card.dataset.visitId;
@@ -263,7 +237,6 @@ async function handleNoteSubmit(event) {
 
   const content = textarea.value.trim();
 
-  // Validation
   if (!content) {
     messageEl.textContent = "Note content cannot be empty.";
     messageEl.style.color = "orangered";
@@ -286,8 +259,8 @@ async function handleNoteSubmit(event) {
     if (response.ok) {
       messageEl.textContent = "Note saved successfully!";
       messageEl.style.color = "lightgreen";
-      form.reset(); // Clear the textarea
-      renderNewNote(newNote, card); // Add the new note to the UI
+      form.reset();
+      renderNewNote(newNote, card);
     } else {
       throw new Error(newNote.detail || "Failed to save note.");
     }
@@ -303,22 +276,14 @@ async function handleNoteSubmit(event) {
   }
 }
 
-/**
- * Renders a single new note into the list without a full refresh.
- * (Criterion 2: Easy to visualize)
- * @param {object} note - The new note object returned from the API.
- * @param {HTMLElement} card - The visit card element.
- */
 function renderNewNote(note, card) {
   const notesList = card.querySelector(".notes-list");
 
-  // Remove the "No notes" placeholder if it exists
   const noNotesEl = notesList.querySelector(".no-notes");
   if (noNotesEl) {
     noNotesEl.remove();
   }
 
-  // Create the new list item
   const li = document.createElement("li");
   li.className = "note-item";
   li.innerHTML = `
@@ -331,14 +296,9 @@ function renderNewNote(note, card) {
         })}</span>
     `;
 
-  // Add to the top of the list (newest first)
   notesList.prepend(li);
 }
 
-/**
- * Handles the click event for the "Update Status" button.
- * (Existing function - no changes)
- */
 async function handleStatusUpdate(event) {
   const button = event.target;
   const card = button.closest(".visit-card");
@@ -436,7 +396,6 @@ async function handleStatusUpdate(event) {
         updateBtn.style.display = "none";
         statusSelect.disabled = true;
         statusSelect.style.display = "none";
-        // Hide reschedule inputs in final states
         if (rescheduleDateInput) rescheduleDateInput.style.display = "none";
         if (rescheduleTimeInput) rescheduleTimeInput.style.display = "none";
       } else {
@@ -452,7 +411,6 @@ async function handleStatusUpdate(event) {
         updateBtn.style.display = "";
         statusSelect.disabled = false;
         statusSelect.style.display = "";
-        // Re-apply visibility for reschedule inputs based on current selection
         statusSelect.dispatchEvent(new Event("change"));
       }
     } else {
@@ -470,20 +428,28 @@ async function handleStatusUpdate(event) {
   }
 }
 
-/**
- * Renders the visit list applying the current status filter.
- * (Existing function - no changes)
- */
 function renderVisitList() {
   const listContainer = document.getElementById("visit-list");
   const loadingMessage = document.getElementById("loading-message");
-  const statusFilter = document.getElementById("status-filter");
-  const selected = statusFilter?.value || "All";
 
-  const filtered =
-    selected === "All"
-      ? allVisits
-      : allVisits.filter((v) => v.status === selected);
+  const statusFilter = document.getElementById("status-filter");
+  const technicianFilter = document.getElementById("technician-filter");
+
+  const selectedStatus = statusFilter?.value || "All";
+  const selectedTechnician = technicianFilter?.value || "All";
+
+  let filtered = allVisits;
+
+  if (selectedStatus !== "All") {
+    filtered = filtered.filter((v) => v.status === selectedStatus);
+  }
+
+  if (selectedTechnician !== "All") {
+    filtered = filtered.filter(
+      (v) => v.assigned_technician === selectedTechnician
+    );
+  }
+
   listContainer.innerHTML = "";
 
   if (filtered.length === 0) {
