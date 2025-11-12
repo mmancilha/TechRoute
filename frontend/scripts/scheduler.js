@@ -95,7 +95,7 @@ doneAllocatingBtn.addEventListener('click', () => {
     visitForm.reset();
     visitFormMessage.textContent = 'New appointment successfully created.';
     visitFormMessage.style.color = 'lightgreen';
-    window.location.href = 'dashboard.html';
+    window.location.href = '/dashboard';
 });
 
 function showAllocator(visit) {
