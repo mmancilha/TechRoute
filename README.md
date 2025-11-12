@@ -49,10 +49,3 @@ curl -X POST "http://127.0.0.1:8000/api/visits" \
         "visit_time": "13:30:00"
       }'
 ```
-
-## Contributing
-
-- Use feature branches like `task/<short-description>`
-- Conventional commits (e.g., `feat:`, `fix:`, `docs:`)
-- Open PRs with a brief summary and screenshots/logs
-MIT License — see `LICENSE`.
